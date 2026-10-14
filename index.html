@@ -771,8 +771,11 @@ function setPin(v){window.__pin=v;try{v?localStorage.setItem("svc-pin",v):localS
 const API_URL = "https://script.google.com/macros/s/AKfycbzZrGcNwJyxBminu0r4-EWLgZQMzQ4fzwDEhYpNXbZEBYbENWIP0horxK6hKv-W7xGJ/exec";
 async function run(fn,...args){
   if(!/^https:\/\/script\.google\.com\/.+\/exec$/.test(API_URL))throw new Error("API_URL is not set in index.html");
-  const r=await fetch(API_URL,{method:"POST",body:JSON.stringify({fn,args:[getPin()||window.__pin||"",...args]})});
-  const j=await r.json();
+  let r;
+  try{r=await fetch(API_URL,{method:"POST",body:JSON.stringify({fn,args:[getPin()||window.__pin||"",...args]})})}
+  catch(e){throw new Error("Network blocked the Google server ("+(e&&e.message||e)+")")}
+  const txt=await r.text();let j;
+  try{j=JSON.parse(txt)}catch(e){throw new Error("Google sent a page instead of data (status "+r.status+"): "+txt.replace(/<[^>]+>/g," ").replace(/\s+/g," ").trim().slice(0,140))}
   if(!j.ok){if(String(j.error).indexOf("BAD_PIN")>=0){setPin("");needPin=true;pinErr="Wrong PIN. Try again.";render()}throw new Error(j.error)}
   return j.result}
 function renderPin(){return `<div class="sec" style="max-width:360px;margin:40px auto 0"><div class="card" style="display:flex;flex-direction:column;gap:12px">
@@ -801,7 +804,7 @@ async function refresh(syncReport){
     if(!issuesDirty)issuesEdit=issueTypes.slice();
     if(syncReport&&window.XLSX){try{await run("writeReport",JSON.stringify(buildWorkbook(visits,[])))}catch(e){}}
     if(tab==="dash"||tab==="list"||!app.contains(document.activeElement))render();
-  }catch(err){if(!needPin){dbError="Could not load data. Check your internet and reload.";visitsLoaded=true;render()}}
+  }catch(err){if(!needPin){dbError="Could not load data. Details: "+String(err&&err.message||err);visitsLoaded=true;render()}}
   refreshing=false}
 try{const t=localStorage.getItem("svc-tab");if(t&&["dash","list","team"].includes(t))tab=t}catch(e){}
 document.querySelectorAll("#tabs button").forEach(b=>b.setAttribute("aria-selected",b.dataset.tab===tab?"true":"false"));
