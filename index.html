@@ -1,1 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="theme-color" content="#0E5A45">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%226%22 fill=%22%230E5A45%22/%3E%3Cpath d=%22M9 17l5 5 9-11%22 stroke=%22white%22 stroke-width=%223.5%22 fill=%22none%22 stroke-linecap=%22round%22/%3E%3C/svg%3E">
+<title>18KT Store Visit Checklist</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>:root{color-scheme:light}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>18KT Store Visit Checklist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap" media="print" onload="this.media='all'">
+<style>
+/* Layout: phone-first single column app; sticky header with tabs; cards only for visits and sections */
+:root{
+  --bg:#F3F5F2; --surface:#FFFFFF; --sunk:#E9EDE8; --ink:#14211C; --muted:#5B6862; --line:#D6DDD8;
+  --accent:#0E5A45; --accent-ink:#FFFFFF; --accent-soft:#DCEBE4; --gold:#9A6F1C; --gold-soft:#F4EAD3;
+  --ok:#23784A; --ok-soft:#DDF0E4; --bad:#B23A2A; --bad-soft:#F8E0DB; --warn:#9A5F00; --warn-soft:#F8EBD2;
+  --f-body:"Plus Jakarta Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0F1613; --surface:#17211D; --sunk:#111A16; --ink:#E5EDE8; --muted:#94A39C; --line:#2A3832;
+  --accent:#4FC39A; --accent-ink:#06231A; --accent-soft:#173A2E; --gold:#D9B160; --gold-soft:#3A2F17;
+  --ok:#5BCB8A; --ok-soft:#173826; --bad:#F08A78; --bad-soft:#40201B; --warn:#E6AE4E; --warn-soft:#3B2C12; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0F1613; --surface:#17211D; --sunk:#111A16; --ink:#E5EDE8; --muted:#94A39C; --line:#2A3832;
+  --accent:#4FC39A; --accent-ink:#06231A; --accent-soft:#173A2E; --gold:#D9B160; --gold-soft:#3A2F17;
+  --ok:#5BCB8A; --ok-soft:#173826; --bad:#F08A78; --bad-soft:#40201B; --warn:#E6AE4E; --warn-soft:#3B2C12; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.5}
+.wrap{max-width:980px;margin:0 auto;padding-inline:16px;padding-block:0 64px}
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-bottom:1px solid var(--line)}
+.top-in{max-width:980px;margin:0 auto;padding-inline:16px;padding-block:12px 0;display:flex;flex-direction:column;gap:10px}
+.brand{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.brand h1{margin:0;font-size:19px;font-weight:800;letter-spacing:-.01em;text-wrap:balance}
+.kt{font-family:var(--f-mono);font-size:11px;font-weight:600;color:var(--gold);background:var(--gold-soft);padding:2px 7px;border-radius:4px;letter-spacing:.06em}
+nav.tabs{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
+nav.tabs button{flex:0 0 auto;border:0;background:none;color:var(--muted);font:600 14px var(--f-body);padding:8px 12px 10px;border-bottom:2.5px solid transparent;cursor:pointer}
+nav.tabs button[aria-selected="true"]{color:var(--accent);border-bottom-color:var(--accent)}
+nav.tabs button:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+h2{font-size:17px;margin:0;font-weight:700;text-wrap:balance}
+h3{font-size:15px;margin:0;font-weight:700}
+.sec{display:flex;flex-direction:column;gap:12px;margin-top:22px}
+.sec-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.lbl{font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.muted{color:var(--muted)}
+.small{font-size:13px}
+.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+@media (max-width:640px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px 14px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.kpi b{font-family:var(--f-mono);font-size:24px;font-weight:600;line-height:1.2}
+.kpi span{font-size:12.5px;color:var(--muted)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:600 14px var(--f-body);padding:9px 14px;border-radius:8px;cursor:pointer;min-height:40px}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.danger{color:var(--bad);border-color:var(--bad-soft)}
+.btn.ghost{background:none;border-color:transparent;color:var(--accent);padding-inline:8px}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+.pill{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:700;padding:2px 8px;border-radius:999px;white-space:nowrap}
+.pill.ok{background:var(--ok-soft);color:var(--ok)}
+.pill.bad{background:var(--bad-soft);color:var(--bad)}
+.pill.warn{background:var(--warn-soft);color:var(--warn)}
+.pill.idle{background:var(--sunk);color:var(--muted)}
+.pill.gold{background:var(--gold-soft);color:var(--gold)}
+/* coverage */
+.weeks{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}
+.week{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.week .route{font-size:12px;color:var(--muted)}
+.storerow{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:7px 0;border-top:1px dashed var(--line)}
+.storerow:first-of-type{border-top:0}
+.storerow .nm{font-weight:600}
+/* tables */
+.tbl-wrap{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:var(--r)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:middle;white-space:nowrap}
+th{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:700;background:var(--sunk)}
+tr:last-child td{border-bottom:0}
+/* bars */
+.bars{display:flex;flex-direction:column;gap:8px}
+.bar{display:grid;grid-template-columns:minmax(0,190px) 1fr 38px;gap:10px;align-items:center;font-size:13.5px}
+.bar .track{height:10px;background:var(--sunk);border-radius:5px;overflow:hidden}
+.bar .fill{height:100%;background:var(--bad);border-radius:5px}
+.bar .t{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@media (max-width:520px){.bar{grid-template-columns:minmax(0,1fr) 70px 30px}}
+/* visit list */
+.vlist{display:flex;flex-direction:column;gap:8px}
+.vitem{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px 14px;cursor:pointer;text-align:left;font:inherit;color:inherit;width:100%}
+.vitem:hover{border-color:var(--accent)}
+.vdate{font-family:var(--f-mono);font-size:12px;text-align:center;line-height:1.15;color:var(--muted);min-width:42px}
+.vdate b{display:block;font-size:20px;color:var(--ink)}
+.vmid{min-width:0;display:flex;flex-direction:column;gap:3px}
+.vmid .s{font-weight:700}
+.vmid .p{font-size:13px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.flags{display:flex;gap:5px;flex-wrap:wrap}
+.score{font-family:var(--f-mono);font-weight:600;font-size:18px;text-align:right}
+.score small{display:block;font-size:11px;color:var(--muted);font-family:var(--f-body);font-weight:600}
+/* filters + form */
+.filters{display:flex;gap:8px;flex-wrap:wrap}
+.filters select,.filters input{flex:1 1 140px;min-width:0}
+input[type=text],input[type=number],input[type=date],input[type=time],input[type=month],select,textarea{width:100%;font:500 15px var(--f-body);color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:9px 10px;min-height:42px}
+textarea{min-height:64px;resize:vertical;line-height:1.4}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+@media (max-width:560px){.grid2,.grid3{grid-template-columns:minmax(0,1fr)}}
+.field{display:flex;flex-direction:column;gap:5px;min-width:0}
+.field>label,.field>.fl{font-size:13px;font-weight:600;color:var(--muted)}
+.fset{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px;display:flex;flex-direction:column;gap:14px}
+.fset-h{display:flex;align-items:baseline;gap:10px;justify-content:space-between;flex-wrap:wrap}
+.step{font-family:var(--f-mono);font-size:12px;color:var(--gold);font-weight:600}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chk{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:8px;padding:8px 12px;cursor:pointer;font-weight:600;font-size:14px;background:var(--surface);min-height:40px}
+.chk.sm{padding:5px 10px;min-height:34px;font-size:13px;font-weight:600}
+.matrix td.c{text-align:center;font-family:var(--f-mono);font-weight:600}
+.matrix td.hot{background:var(--bad-soft);color:var(--bad)}
+.chk input{width:18px;height:18px;accent-color:var(--accent);margin:0}
+.chk:has(input:checked){border-color:var(--accent);background:var(--accent-soft)}
+.member{display:grid;grid-template-columns:150px 1fr;gap:10px;align-items:center}
+@media (max-width:520px){.member{grid-template-columns:1fr}}
+.alert{border-radius:8px;padding:10px 12px;font-size:13.5px;font-weight:600;display:flex;gap:8px;align-items:flex-start}
+.alert.warn{background:var(--warn-soft);color:var(--warn)}
+.alert.bad{background:var(--bad-soft);color:var(--bad)}
+.alert.ok{background:var(--ok-soft);color:var(--ok)}
+.alert.info{background:var(--accent-soft);color:var(--accent)}
+.rev{border-top:1px solid var(--line);padding-top:14px;display:flex;flex-direction:column;gap:10px}
+.rev:first-of-type{border-top:0;padding-top:0}
+.calc{font-family:var(--f-mono);font-size:13px;color:var(--muted)}
+.audit{display:flex;flex-direction:column;gap:10px;padding:12px 0;border-top:1px solid var(--line)}
+.audit:first-of-type{border-top:0;padding-top:0}
+.audit-h{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
+.audit-h .q{font-weight:600;display:flex;gap:8px;min-width:0;flex:1 1 220px}
+.audit-h .q .n{font-family:var(--f-mono);color:var(--muted);font-size:13px;padding-top:1px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;flex:0 0 auto}
+.seg button{border:0;background:var(--surface);color:var(--muted);font:700 13.5px var(--f-body);padding:8px 14px;cursor:pointer;min-height:38px}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button.on-ok{background:var(--ok);color:#fff}
+.seg button.on-bad{background:var(--bad);color:#fff}
+.seg button.on-warn{background:var(--warn);color:#fff}
+.timebox{display:flex;gap:6px}.timebox input{flex:1;min-width:0}
+.photos{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.ph{position:relative;width:72px;height:72px;border-radius:8px;overflow:hidden;border:1px solid var(--line);background:var(--sunk)}
+.ph img{width:100%;height:100%;object-fit:cover;display:block}
+.ph button{position:absolute;top:2px;right:2px;width:22px;height:22px;border-radius:50%;border:0;background:rgba(0,0,0,.6);color:#fff;font-size:13px;line-height:1;cursor:pointer}
+.addph{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--accent);cursor:pointer;border:1px dashed var(--line);border-radius:8px;padding:8px 10px;min-height:38px}
+.addph input{display:none}
+.actions{position:sticky;bottom:0;background:var(--bg);border-top:1px solid var(--line);padding-block:12px calc(12px + env(safe-area-inset-bottom,0px));display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;margin-top:18px;z-index:10}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:8px;font-weight:600;font-size:14px;z-index:50;max-width:calc(100% - 32px)}
+.empty{text-align:center;padding:28px 16px;color:var(--muted);background:var(--surface);border:1px dashed var(--line);border-radius:var(--r)}
+.empty b{display:block;color:var(--ink);font-size:16px;margin-bottom:4px}
+.detail-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
+.kv{display:flex;flex-direction:column;gap:2px;min-width:0}
+.kv .v{font-weight:600;overflow-wrap:anywhere}
+.rv-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 16px}
+@media (max-width:560px){.rv-grid{grid-template-columns:minmax(0,1fr)}}
+.rv-grid p{margin:2px 0 0;white-space:pre-wrap;overflow-wrap:anywhere}
+.team-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr) auto auto;gap:8px;align-items:center}
+@media (max-width:620px){.team-row{grid-template-columns:minmax(0,1fr) auto;}.team-row .role{grid-column:1/-1;grid-row:2}}
+.confirm{display:flex;gap:8px;align-items:center;flex-wrap:wrap;background:var(--bad-soft);color:var(--bad);border-radius:8px;padding:10px 12px;font-weight:600;font-size:14px}
+.banner{margin-top:14px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
 
+
+<header class="top">
+  <div class="top-in">
+    <div class="brand"><h1>Store Visit Checklist</h1><span class="kt">18KT · H.O. OPERATIONS</span></div>
+    <nav class="tabs" role="tablist" id="tabs">
+      <button role="tab" data-tab="dash" aria-selected="true">Dashboard</button>
+      <button role="tab" data-tab="new" aria-selected="false">New Visit</button>
+      <button role="tab" data-tab="list" aria-selected="false">All Visits</button>
+      <button role="tab" data-tab="team" aria-selected="false">Settings</button>
+    </nav>
+  </div>
+</header>
+<main class="wrap" id="app">
+  <div class="sec"><div class="empty"><b>Loading visits…</b>Saved store visits and the team list will appear here.</div></div>
+</main>
+<div class="toast" id="toast" hidden></div>
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>
+(function(){
+"use strict";
+/* ---------- SOP master data ---------- */
+const STORES=[
+ {id:"ahmedabad",name:"Ahmedabad",week:1,hod:"Q"},
+ {id:"mehsana",name:"Mehsana",week:1,hod:"H"},
+ {id:"vadodara",name:"Vadodara",week:2,hod:"Q"},
+ {id:"anand",name:"Anand",week:2,hod:"H"},
+ {id:"borivali",name:"Borivali",week:3,hod:"Q"},
+ {id:"vapi",name:"Vapi",week:3,hod:"H"},
+ {id:"kosamba",name:"Kosamba",week:4,hod:"H"},
+ {id:"bharuch",name:"Bharuch",week:4,hod:"H"},
+ {id:"surat",name:"Surat",week:0,hod:"M"}
+];
+const WEEKS=[
+ {w:1,t:"1st Week",route:"Train – Car"},
+ {w:2,t:"2nd Week",route:"Train – Car"},
+ {w:3,t:"3rd Week",route:"Train"},
+ {w:4,t:"4th Week",route:"Road"},
+ {w:0,t:"Surat",route:"Covered by HOD"}
+];
+const HODF={M:"Every month",Q:"Once a quarter",H:"Once in 6 months"};
+const BRANCH=[["invHead","Inventory Head"],["floorMgr","Floor Manager"],["smAsm","SM / ASM"]];
+const REVIEWS=[
+ {k:"storeSale",t:"Store Sale Review",unit:"₹ Lakh",nums:["ly","target","actual"],commit:"num"},
+ {k:"categorySale",t:"Category Wise Sale Review",unit:"",nums:[],commit:"text",issues:true},
+ {k:"stockTurn",t:"Stock Turn Review",unit:"times",nums:["ly","target","actual"],commit:"num"},
+ {k:"walkouts",t:"Walkouts Review",unit:"count",lower:true,nums:["ly","actual"],commit:null,tip:"Walkouts going up is bad. Growth here is shown in red when walkouts increase."}
+];
+const RSTATUS=[["excellent","Excellent","ok"],["good","Good","warn"],["poor","Poor","bad"]];
+const NUMLBL={ly:"Last Year, same month",target:"Target",actual:"Actual"};
+const RTEXT=[["understanding","Understanding (optional)"],["reasoning","Fair Reasoning (remark)"],["plan","Plan of Action"]];
+const AUDIT=[
+ ["productKnowledge","Product knowledge"],
+ ["vm","VM management and stock arrangement"],
+ ["overStock","Over stock management"],
+ ["combo","Combo clubbing and info"],
+ ["samplingQC","Sampling QC check"],
+ ["themeStock","Theme wise stock"],
+ ["collectionDisplay","Collection display and info"],
+ ["rangeStock","Range wise stock"],
+ ["newDev","New developments that could be replicated at other stores"],
+ ["newStockFeedback","New stock feedback",true]
+];
+const storeName=id=>(STORES.find(s=>s.id===id)||{name:id||"—"}).name;
+
+/* ---------- state ---------- */
+let db=null, assets=null, canWrite=true;
+let team=[], teamLoaded=false;
+let visits=[], visitsLoaded=false, dbError="";
+let tab="dash", detailId=null, draft=null, confirmDel=false;
+let dashMonth=ymNow(), filt={store:"",member:"",month:""};
+let teamEdit=null, uploading=0, teamDirty=false;
+let issueTypes=[], issuesEdit=null, issuesDirty=false, downloads=null;
+
+/* ---------- utils ---------- */
+function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function pad(n){return String(n).padStart(2,"0")}
+function todayStr(){const d=new Date();return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate())}
+function ymNow(){return todayStr().slice(0,7)}
+function parseD(s){const [y,m,d]=s.split("-").map(Number);return new Date(y,m-1,d)}
+const MON=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const DAY=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+function fmtD(s){if(!s)return "—";const d=parseD(s);return d.getDate()+" "+MON[d.getMonth()]+" "+d.getFullYear()}
+function fmtYM(ym){const [y,m]=ym.split("-").map(Number);return MON[m-1]+" "+y}
+function mins(t){if(!t)return null;const [h,m]=t.split(":").map(Number);return h*60+m}
+function duration(v){const a=mins(v.startTime),b=mins(v.endTime);if(a==null||b==null||b<=a)return null;return b-a}
+function fmtDur(m){if(m==null)return "—";return Math.floor(m/60)+"h "+pad(m%60)+"m"}
+function isThu(s){return s?parseD(s).getDay()===4:true}
+function auditScore(v){const a=v.audit||{};let ok=0,ans=0;AUDIT.forEach(([k])=>{const x=a[k];if(x&&x.ok===true){ok++;ans++}else if(x&&x.ok===false)ans++});return {ok,ans,pct:ans?Math.round(ok/ans*100):null}}
+function memberName(id){const m=team.find(t=>t.id===id);return m?m.name:"(removed member)"}
+function hodIds(){return team.filter(t=>t.hod).map(t=>t.id)}
+function num(x){return x===""||x==null||isNaN(Number(x))?null:Number(x)}
+function achievement(r,lower){const t=num(r.target),a=num(r.actual);if(t==null||a==null||t===0)return null;return lower?null:Math.round(a/t*1000)/10}
+function growthPct(r){const l=num(r.ly),a=num(r.actual);if(l==null||a==null||l===0)return null;return Math.round((a-l)/l*1000)/10}
+function nowHM(){const d=new Date();return pad(d.getHours())+":"+pad(d.getMinutes())}
+function sgn(n){return n>0?"+"+n:String(n)}
+/* growth is "good" when up, except walkouts where down is good */
+function gClass(g,lower){if(g==null)return "idle";if(g===0)return "warn";return (lower?g<0:g>0)?"ok":"bad"}
+function prevVisit(v){return visits.filter(x=>x.status==="submitted"&&x.store===v.store&&x._id!==v._id&&x.date&&v.date&&x.date<v.date).sort((a,b)=>a.date<b.date?1:-1)[0]||null}
+/* compare last visit's commitment with growth now */
+function commitCheck(v,r){if(r.commit!=="num")return null;const p=v.store?prevVisit(v):null;if(!p)return null;const pr=(p.reviews||{})[r.k]||{};const c=num(pr.commit);if(c==null)return {p,c:null};
+  const g=growthPct((v.reviews||{})[r.k]||{});if(g==null)return {p,c,g:null};
+  const met=r.lower?g<=c:g>=c;return {p,c,g,met,gap:Math.round((g-c)*10)/10}}
+function commitHtml(v,r){
+  if(r.commit==="text"){const p=v.store?prevVisit(v):null;const n=p&&((p.reviews||{})[r.k]||{}).nextNote;return n?`<div class="alert info" style="white-space:pre-wrap">Last visit (${esc(fmtD(p.date))}) note: ${esc(n)}</div>`:""}
+  const cc=commitCheck(v,r);if(!cc)return "";
+  if(cc.c==null)return `<div class="small muted">Last visit (${esc(fmtD(cc.p.date))}): no commitment recorded.</div>`;
+  if(cc.g==null)return `<div class="alert info">Last visit (${esc(fmtD(cc.p.date))}) branch committed <b class="num">${sgn(cc.c)}%</b>. Fill Last Year and Actual to check it.</div>`;
+  return `<div class="alert ${cc.met?"ok":"bad"}">Committed <b class="num">${sgn(cc.c)}%</b> on ${esc(fmtD(cc.p.date))} · Now <b class="num">${sgn(cc.g)}%</b> · ${cc.met?"Met":"Missed by "+Math.abs(cc.gap)+"%"}${cc.met?"":". Ask the branch why."}</div>`}
+function calcHtml(x,r){if(!r.nums.length)return "";const g=growthPct(x),a=achievement(x,r.lower);const out=[];
+  out.push(`<span class="pill ${gClass(g,r.lower)}">Growth vs LY: ${g==null?"—":sgn(g)+"%"}</span>`);
+  if(!r.lower)out.push(`<span class="pill ${a==null?"idle":a>=100?"ok":a>=90?"warn":"bad"}">Achievement: ${a==null?"—":a+"%"}</span>`);
+  else{const t=num(x.target),ac=num(x.actual);if(t!=null&&ac!=null)out.push(`<span class="pill ${ac<=t?"ok":"bad"}">${ac<=t?"Within target":(ac-t)+" over target"}</span>`)}
+  const down=g!=null&&(r.lower?g>0:g<0);
+  return `<div class="flags">${out.join("")}</div>${down?`<div class="alert bad">${r.lower?"Walkouts are up vs last year.":"Down vs last year."} Write the Plan of Action below.</div>`:""}`}
+function toast(msg){const t=document.getElementById("toast");t.textContent=msg;t.hidden=false;clearTimeout(toast._t);toast._t=setTimeout(()=>t.hidden=true,2600)}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
+function scoreClass(p){return p==null?"idle":p>=80?"ok":p>=60?"warn":"bad"}
+function lsGet(k){try{return JSON.parse(localStorage.getItem(k)||"null")}catch(e){return null}}
+function lsSet(k,v){try{v==null?localStorage.removeItem(k):localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+
+/* period helpers (Indian FY: Q1 Apr-Jun) */
+function periodFor(freq,ref){
+  const d=parseD(ref),y=d.getFullYear(),m=d.getMonth();
+  let s,e,label;
+  if(freq==="M"){s=new Date(y,m,1);e=new Date(y,m+1,0);label=MON[m]+" "+y}
+  else if(freq==="Q"){const qs=m>=3?3+Math.floor((m-3)/3)*3:0;s=new Date(y,qs,1);e=new Date(y,qs+3,0);label=MON[qs]+"–"+MON[qs+2]+" "+y}
+  else{ if(m>=3&&m<=8){s=new Date(y,3,1);e=new Date(y,8,30)} else if(m>=9){s=new Date(y,9,1);e=new Date(y+1,2,31)} else {s=new Date(y-1,9,1);e=new Date(y,2,31)}
+        label=MON[s.getMonth()]+" "+s.getFullYear()+" – "+MON[e.getMonth()]+" "+e.getFullYear()}
+  const f=x=>x.getFullYear()+"-"+pad(x.getMonth()+1)+"-"+pad(x.getDate());
+  return {s:f(s),e:f(e),label};
+}
+
+/* ---------- issue types ---------- */
+function issueChips(path,sel,label){if(!issueTypes.length)return `<div class="small muted">Add issue types in Settings to tag problems.</div>`;
+  return `<div class="field"><span class="fl">${label}</span><div class="chips">${issueTypes.map(t=>`<label class="chk sm"><input type="checkbox" data-iss="${path}" value="${esc(t)}" ${(sel||[]).includes(t)?"checked":""}>${esc(t)}</label>`).join("")}</div></div>`}
+function issuePills(arr){return (arr||[]).length?`<div class="flags">${arr.map(i=>`<span class="pill bad">${esc(i)}</span>`).join("")}</div>`:""}
+function auditResult(a,rated){if(rated){const r=RSTATUS.find(s=>s[0]===a.rating);if(r)return r[1]}return a.ok===true?"OK":a.ok===false?"Not OK":""}
+function issueEntries(vs){const out=[];vs.forEach(v=>{
+  REVIEWS.forEach(r=>{const x=(v.reviews||{})[r.k]||{};(x.issues||[]).forEach(i=>out.push({v,issue:i,where:r.t,remark:[x.reasoning,x.nextNote].filter(Boolean).join(" | ")}))});
+  AUDIT.forEach(([k,t])=>{const a=(v.audit||{})[k]||{};(a.issues||[]).forEach(i=>out.push({v,issue:i,where:"Audit: "+t,remark:a.remark||""}))})});return out}
+function issueMatrix(vs){const ent=issueEntries(vs);const types=[...new Set(ent.map(e=>e.issue))];
+  return types.map(t=>{const per={};ent.filter(e=>e.issue===t).forEach(e=>per[e.v.store]=(per[e.v.store]||0)+1);return {t,per,branches:Object.keys(per).length,total:ent.filter(e=>e.issue===t).length}}).sort((a,b)=>b.branches-a.branches||b.total-a.total)}
+function buildWorkbook(vs,collect){
+  const X=window.XLSX;const wb=collect?null:X.utils.book_new();
+  const sorted=vs.slice().sort((a,b)=>(a.date||"")<(b.date||"")?-1:1);
+  const add=(name,rows,widths)=>{if(collect){collect.push({name,rows});return}const ws=X.utils.aoa_to_sheet(rows);ws["!cols"]=widths.map(w=>({wch:w}));if(rows.length>1)ws["!autofilter"]={ref:X.utils.encode_range({s:{r:0,c:0},e:{r:rows.length-1,c:rows[0].length-1}})};X.utils.book_append_sheet(wb,ws,name)};
+  const N=x=>num(x);
+  /* 1 visits */
+  const r1=[["Date","Day","Store","H.O. team","Start","End","Duration (min)","On Thursday","Inventory Head","Floor Manager","SM / ASM","Audit OK","Audit checked","Audit score %","Status","Notes"]];
+  sorted.forEach(v=>{const sc=auditScore(v);const b=k=>{const x=(v.branch||{})[k]||{};return (x.present?"Present":"Absent")+(x.name?" - "+x.name:"")};
+    r1.push([v.date,v.date?DAY[parseD(v.date).getDay()]:"",storeName(v.store),(v.team||[]).map(memberName).join(", "),v.startTime||"",v.endTime||"",duration(v),v.date?(isThu(v.date)?"Yes":"No"):"",b("invHead"),b("floorMgr"),b("smAsm"),sc.ok,sc.ans,sc.pct,v.status==="submitted"?"Submitted":"Draft",v.notes||""])});
+  add("Visits",r1,[11,6,12,26,7,7,10,10,24,24,24,9,10,11,10,40]);
+  /* 2 reviews */
+  const r2=[["Date","Store","Review","Last Year","Target","Actual","Growth % vs LY","Achievement %","Status","Understanding","Fair Reasoning","Plan of Action","Issue types","Commitment next visit %","Note for next visit","Last visit commitment %","Commitment result"]];
+  sorted.forEach(v=>REVIEWS.forEach(r=>{const x=(v.reviews||{})[r.k]||{};const st=RSTATUS.find(s=>s[0]===x.status);const cc=commitCheck(v,r);
+    r2.push([v.date,storeName(v.store),r.t,N(x.ly),N(x.target),N(x.actual),growthPct(x),achievement(x,r.lower),st?st[1]:"",x.understanding||"",x.reasoning||"",x.plan||"",(x.issues||[]).join(", "),N(x.commit),x.nextNote||"",cc&&cc.c!=null?cc.c:null,cc&&cc.g!=null?(cc.met?"Met":"Missed by "+Math.abs(cc.gap)+"%"):""])}));
+  add("Reviews",r2,[11,12,24,10,10,10,12,12,10,30,36,36,22,14,30,14,16]);
+  /* 3 audit */
+  const r3=[["Date","Store","No.","Audit point","Result","Remark","Issue types","Photos"]];
+  sorted.forEach(v=>AUDIT.forEach(([k,t,rated],i)=>{const a=(v.audit||{})[k]||{};r3.push([v.date,storeName(v.store),i+1,t,auditResult(a,rated),a.remark||"",(a.issues||[]).join(", "),(a.photos||[]).length])}));
+  add("Audit",r3,[11,12,5,40,10,44,22,7]);
+  /* 4 issues raw */
+  const r4=[["Issue type","Store","Date","Where","Remark"]];
+  issueEntries(sorted).forEach(e=>r4.push([e.issue,storeName(e.v.store),e.v.date,e.where,e.remark]));
+  add("Issues",r4,[20,12,11,40,50]);
+  /* 5 issue summary matrix */
+  const mx=issueMatrix(sorted);const stIds=STORES.map(s=>s.id);
+  const r5=[["Issue type","Branches affected",...STORES.map(s=>s.name),"Total"]];
+  mx.forEach(m=>r5.push([m.t,m.branches,...stIds.map(id=>m.per[id]||null),m.total]));
+  add("Issue summary",r5,[22,16,...STORES.map(()=>11),8]);
+  return collect?collect:X.write(wb,{bookType:"xlsx",type:"array"});
+}
+async function downloadReport(vs,label){
+  if(!downloads||!window.XLSX){toast("Excel download is not available here.");return}
+  if(!vs.length){toast("No visits to export.");return}
+  try{const buf=buildWorkbook(vs);await downloads.save({filename:"Store Visit Report - "+label+".xlsx",data:new Blob([buf])})}
+  catch(err){if(err&&err.code==="declined")return;toast(err&&err.code==="rate_limited"?"A download is already open. Try again in a moment.":"Could not create the Excel file.")}
+}
+
+/* ---------- blank visit ---------- */
+function blankVisit(){
+  const v={store:"",date:todayStr(),startTime:"",endTime:"",team:[],branch:{},reviews:{},audit:{},notes:"",status:"draft"};
+  BRANCH.forEach(([k])=>v.branch[k]={present:false,name:""});
+  REVIEWS.forEach(r=>{v.reviews[r.k]={ly:"",target:"",actual:"",status:"",understanding:"",reasoning:"",plan:"",commit:"",nextNote:"",issues:[]}});
+  AUDIT.forEach(([k])=>v.audit[k]={ok:null,rating:"",remark:"",photos:[],issues:[]});
+  return v;
+}
+function normalize(v){const b=blankVisit();const o=JSON.parse(JSON.stringify(v));
+  for(const k in b){if(o[k]==null)o[k]=b[k]}
+  BRANCH.forEach(([k])=>o.branch[k]=Object.assign({present:false,name:""},o.branch[k]||{}));
+  REVIEWS.forEach(r=>{o.reviews[r.k]=Object.assign({},b.reviews[r.k],o.reviews[r.k]||{});if(!Array.isArray(o.reviews[r.k].issues))o.reviews[r.k].issues=[]});
+  AUDIT.forEach(([k])=>{o.audit[k]=Object.assign({ok:null,rating:"",remark:"",photos:[],issues:[]},o.audit[k]||{});if(!Array.isArray(o.audit[k].photos))o.audit[k].photos=[];if(!Array.isArray(o.audit[k].issues))o.audit[k].issues=[]});
+  return o;
+}
+
+/* ---------- render root ---------- */
+const app=document.getElementById("app");
+function setTab(t){tab=t;detailId=null;confirmDel=false;
+  document.querySelectorAll("#tabs button").forEach(b=>b.setAttribute("aria-selected",b.dataset.tab===t?"true":"false"));
+  if(t==="new"&&!draft){draft=lsGet("svc-draft")||blankVisit();draft=normalize(draft)}
+  if(t==="new"&&draft&&!draft._id&&!hasContent(draft)){draft.startTime=nowHM();draft.endTime="";draft.date=todayStr()}
+  if(t==="team"){teamEdit=JSON.parse(JSON.stringify(team));teamDirty=false;issuesEdit=issueTypes.slice();issuesDirty=false}
+  try{localStorage.setItem("svc-tab",t)}catch(e){}
+  render();window.scrollTo(0,0)}
+document.getElementById("tabs").addEventListener("click",e=>{const b=e.target.closest("button[data-tab]");if(b)setTab(b.dataset.tab)});
+
+function render(){
+  if(needPin){app.innerHTML=renderPin();setTimeout(()=>{const i=document.getElementById("pinInput");if(i)i.focus()},0);return}
+  let h="";
+  if(dbError)h+=`<div class="alert bad banner">${esc(dbError)}</div>`;
+  if(!canWrite)h+=`<div class="alert info banner">You have view-only access. </div>`;
+  if(detailId)h+=renderDetail();
+  else if(tab==="dash")h+=renderDash();
+  else if(tab==="new")h+=renderForm();
+  else if(tab==="list")h+=renderList();
+  else if(tab==="team")h+=renderTeam();
+  app.innerHTML=h;
+}
+
+/* ---------- dashboard ---------- */
+function submitted(){return visits.filter(v=>v.status==="submitted")}
+function renderDash(){
+  if(!visitsLoaded)return `<div class="sec"><div class="empty"><b>Loading visits…</b></div></div>`;
+  const mv=submitted().filter(v=>(v.date||"").slice(0,7)===dashMonth);
+  const covered=new Set(mv.map(v=>v.store));
+  const scores=mv.map(v=>auditScore(v).pct).filter(p=>p!=null);
+  const avg=scores.length?Math.round(scores.reduce((a,b)=>a+b,0)/scores.length):null;
+  const flagged=mv.filter(v=>!isThu(v.date)||(duration(v)||0)>180).length;
+  const drafts=visits.filter(v=>v.status!=="submitted").length;
+  let h=`<div class="sec"><div class="sec-head"><h2>Overview</h2>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><div class="field" style="flex:0 1 180px"><input type="month" id="dashMonth" value="${esc(dashMonth)}" aria-label="Month"></div>
+    ${downloads?`<button class="btn primary" data-act="xlmonth" ${mv.length?"":"disabled"}>Download Excel</button>`:""}${sheetUrl?`<a class="btn" href="${esc(sheetUrl)}" target="_blank" rel="noopener">Open Google Sheet</a>`:""}</div></div>
+    <div class="kpis">
+      <div class="kpi"><span>Visits in ${esc(fmtYM(dashMonth))}</span><b>${mv.length}</b></div>
+      <div class="kpi"><span>Stores covered</span><b>${covered.size}<span class="muted" style="font-size:15px">/${STORES.length}</span></b></div>
+      <div class="kpi"><span>Avg audit score</span><b>${avg==null?"—":avg+"%"}</b></div>
+      <div class="kpi"><span>SOP flags</span><b style="color:${flagged?"var(--warn)":"inherit"}">${flagged}</b></div>
+    </div>
+    ${drafts?`<div class="alert warn">${drafts} visit${drafts>1?"s are":" is"} saved as draft and not counted yet. Open All Visits to finish ${drafts>1?"them":"it"}.</div>`:""}
+  </div>`;
+  /* monthly coverage */
+  h+=`<div class="sec"><div class="sec-head"><h2>Monthly coverage</h2><span class="muted small">SOP: every store once a month, on a Thursday</span></div><div class="weeks">`;
+  WEEKS.forEach(w=>{
+    h+=`<div class="week"><div><h3>${esc(w.t)}</h3><div class="route">${esc(w.route)}</div></div><div>`;
+    STORES.filter(s=>s.week===w.w).forEach(s=>{
+      const vs=mv.filter(v=>v.store===s.id).sort((a,b)=>a.date<b.date?-1:1);
+      const v=vs[0];
+      h+=`<div class="storerow"><span class="nm">${esc(s.name)}</span>${v?`<span class="pill ok">✓ ${esc(fmtD(v.date).replace(/ \d{4}$/,""))}</span>`:`<span class="pill idle">Pending</span>`}</div>`;
+    });
+    h+=`</div></div>`;
+  });
+  h+=`</div></div>`;
+  /* HOD coverage */
+  const hods=hodIds();
+  const all=submitted();
+  h+=`<div class="sec"><div class="sec-head"><h2>HOD coverage</h2><span class="muted small">Counted when a team member marked HOD is on the visit</span></div>`;
+  if(!hods.length)h+=`<div class="alert warn">No team member is marked as HOD. Open the Team tab and tick HOD for the right person.</div>`;
+  h+=`<div class="tbl-wrap"><table><thead><tr><th>Store</th><th>Frequency</th><th>Current period</th><th>Status</th><th>Last HOD visit</th></tr></thead><tbody>`;
+  const ref=todayStr();
+  ["M","Q","H"].forEach(f=>STORES.filter(s=>s.hod===f).forEach(s=>{
+    const p=periodFor(f,ref);
+    const hv=all.filter(v=>v.store===s.id&&(v.team||[]).some(id=>hods.includes(id))).sort((a,b)=>a.date<b.date?1:-1);
+    const inP=hv.find(v=>v.date>=p.s&&v.date<=p.e);
+    const daysLeft=Math.round((parseD(p.e)-parseD(ref))/864e5);
+    const st=inP?`<span class="pill ok">Done</span>`:daysLeft<=15?`<span class="pill bad">Due · ${daysLeft}d left</span>`:`<span class="pill warn">Pending</span>`;
+    h+=`<tr><td><b>${esc(s.name)}</b></td><td>${HODF[f]}</td><td class="muted">${esc(p.label)}</td><td>${st}</td><td class="num">${hv[0]?esc(fmtD(hv[0].date)):"—"}</td></tr>`;
+  }));
+  h+=`</tbody></table></div></div>`;
+  /* commitment follow-up: latest visit of each store vs what branch committed on the visit before */
+  const rows=[];
+  STORES.forEach(st=>{const lv=all.filter(v=>v.store===st.id).sort((a,b)=>a.date<b.date?1:-1)[0];if(!lv)return;
+    REVIEWS.forEach(r=>{const cc=commitCheck(lv,r);if(cc&&cc.c!=null)rows.push({st,r,lv,cc})})});
+  rows.sort((a,b)=>(a.cc.met===false?0:1)-(b.cc.met===false?0:1));
+  h+=`<div class="sec"><div class="sec-head"><h2>Branch commitments</h2><span class="muted small">Growth % the branch promised last visit vs growth now</span></div>`;
+  if(!rows.length)h+=`<div class="card muted small">Nothing to compare yet. Commitments recorded on a visit are checked on that store's next visit.</div>`;
+  else{h+=`<div class="tbl-wrap"><table><thead><tr><th>Store</th><th>Review</th><th>Committed</th><th>Now</th><th>Result</th></tr></thead><tbody>`;
+    rows.forEach(({st,r,lv,cc})=>{h+=`<tr data-act="open" data-id="${esc(lv._id)}" style="cursor:pointer"><td><b>${esc(st.name)}</b></td><td>${esc(r.t.replace(" Review",""))}</td><td class="num">${sgn(cc.c)}% <span class="muted">· ${esc(fmtD(cc.p.date))}</span></td><td class="num">${cc.g==null?"—":sgn(cc.g)+"%"}</td><td>${cc.g==null?`<span class="pill idle">No data</span>`:cc.met?`<span class="pill ok">Met</span>`:`<span class="pill bad">Missed by ${Math.abs(cc.gap)}%</span>`}</td></tr>`});
+    h+=`</tbody></table></div>`}
+  h+=`</div>`;
+  /* issues across branches */
+  const mx=issueMatrix(mv);const visited=new Set(mv.map(v=>v.store)).size;
+  h+=`<div class="sec"><div class="sec-head"><h2>Issues across branches</h2><span class="muted small">${esc(fmtYM(dashMonth))} · from issue types tagged on visits</span></div>`;
+  if(!mx.length)h+=`<div class="card muted small">No issues tagged in this month. Tag an issue type in the Category Wise Sale Review, and it is counted here store by store.</div>`;
+  else{h+=`<div class="tbl-wrap"><table class="matrix"><thead><tr><th>Issue type</th><th>Branches</th>${STORES.map(s=>`<th>${esc(s.name)}</th>`).join("")}</tr></thead><tbody>`;
+    mx.forEach(m=>{const common=visited>=2&&m.branches>=Math.ceil(visited/2);
+      h+=`<tr><td><b>${esc(m.t)}</b>${common?` <span class="pill bad">Common</span>`:""}</td><td class="num">${m.branches} of ${visited}</td>${STORES.map(s=>`<td class="c ${m.per[s.id]?"hot":""}">${m.per[s.id]||""}</td>`).join("")}</tr>`});
+    h+=`</tbody></table></div><div class="muted small">"Common" means the issue showed up in at least half of the branches visited this month.</div>`}
+  h+=`</div>`;
+  /* audit failures */
+  const fails=AUDIT.map(([k,t])=>({t,n:mv.filter(v=>v.audit&&v.audit[k]&&v.audit[k].ok===false).length}));
+  const maxF=Math.max(1,...fails.map(f=>f.n));
+  h+=`<div class="sec"><div class="sec-head"><h2>Audit points marked Not OK</h2><span class="muted small">${esc(fmtYM(dashMonth))}, all stores</span></div><div class="card">`;
+  if(!mv.length)h+=`<div class="muted small">No submitted visits in this month yet.</div>`;
+  else{h+=`<div class="bars">`;fails.slice().sort((a,b)=>b.n-a.n).forEach(f=>{h+=`<div class="bar"><span class="t" title="${esc(f.t)}">${esc(f.t)}</span><div class="track"><div class="fill" style="width:${f.n/maxF*100}%;${f.n?"":"background:transparent"}"></div></div><span class="num" style="text-align:right">${f.n}</span></div>`});h+=`</div>`}
+  h+=`</div></div>`;
+  /* recent */
+  const recent=submitted().slice(0,5);
+  h+=`<div class="sec"><div class="sec-head"><h2>Recent visits</h2><button class="btn ghost" data-act="tab" data-tab="list">See all →</button></div>`;
+  h+=recent.length?`<div class="vlist">${recent.map(vItem).join("")}</div>`:emptyVisits();
+  h+=`</div>`;
+  return h;
+}
+function emptyVisits(){return `<div class="empty"><b>No store visits yet</b>Tap <b style="display:inline">New Visit</b> at the store to start the checklist. It saves as a draft until you submit.<div style="margin-top:12px">${canWrite?`<button class="btn primary" data-act="tab" data-tab="new">Start a visit</button>`:""}</div></div>`}
+function vItem(v){
+  const d=v.date?parseD(v.date):null, sc=auditScore(v), dur=duration(v);
+  const flags=[];
+  if(v.status!=="submitted")flags.push(`<span class="pill gold">Draft</span>`);
+  if(v.date&&!isThu(v.date))flags.push(`<span class="pill warn">${DAY[d.getDay()]}, not Thu</span>`);
+  if(dur!=null&&dur>180)flags.push(`<span class="pill warn">${fmtDur(dur)}</span>`);
+  const nm=(v.team||[]).map(memberName).join(", ")||"No team selected";
+  return `<button class="vitem" data-act="open" data-id="${esc(v._id)}">
+    <div class="vdate">${d?`<b>${d.getDate()}</b>${MON[d.getMonth()]}`:"—"}</div>
+    <div class="vmid"><span class="s">${esc(storeName(v.store))}</span><span class="p">${esc(nm)}</span>${flags.length?`<div class="flags">${flags.join("")}</div>`:""}</div>
+    <div class="score" style="color:var(--${sc.pct==null?"muted":scoreClass(sc.pct)})">${sc.pct==null?"—":sc.pct+"%"}<small>${sc.ok}/${AUDIT.length} OK</small></div>
+  </button>`;
+}
+
+/* ---------- list ---------- */
+function renderList(){
+  if(!visitsLoaded)return `<div class="sec"><div class="empty"><b>Loading visits…</b></div></div>`;
+  let vs=visits.slice();
+  if(filt.store)vs=vs.filter(v=>v.store===filt.store);
+  if(filt.member)vs=vs.filter(v=>(v.team||[]).includes(filt.member));
+  if(filt.month)vs=vs.filter(v=>(v.date||"").startsWith(filt.month));
+  let h=`<div class="sec"><div class="sec-head"><h2>All visits</h2><div style="display:flex;gap:10px;align-items:center"><span class="muted small num">${vs.length} of ${visits.length}</span>${downloads?`<button class="btn" data-act="xllist" ${vs.length?"":"disabled"}>Download Excel</button>`:""}</div></div>
+   <div class="filters">
+    <select id="fStore" aria-label="Store"><option value="">All stores</option>${STORES.map(s=>`<option value="${s.id}" ${filt.store===s.id?"selected":""}>${esc(s.name)}</option>`).join("")}</select>
+    <select id="fMember" aria-label="Team member"><option value="">All team members</option>${team.map(t=>`<option value="${esc(t.id)}" ${filt.member===t.id?"selected":""}>${esc(t.name)}</option>`).join("")}</select>
+    <input type="month" id="fMonth" value="${esc(filt.month)}" aria-label="Month">
+    ${filt.store||filt.member||filt.month?`<button class="btn ghost" data-act="clearf">Clear</button>`:""}
+   </div>`;
+  h+=vs.length?`<div class="vlist">${vs.map(vItem).join("")}</div>`:(visits.length?`<div class="empty"><b>No visits match these filters</b>Change or clear the filters above.</div>`:emptyVisits());
+  return h+`</div>`;
+}
+
+/* ---------- detail ---------- */
+function renderDetail(){
+  const v=visits.find(x=>x._id===detailId);
+  if(!v)return `<div class="sec"><div class="empty"><b>This visit was deleted</b><button class="btn" data-act="back" style="margin-top:10px">Back</button></div></div>`;
+  const sc=auditScore(v),dur=duration(v);
+  let h=`<div class="sec"><div class="sec-head"><button class="btn ghost" data-act="back">← Back</button>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">${canWrite?`<button class="btn" data-act="edit" data-id="${esc(v._id)}">Edit</button><button class="btn danger" data-act="askdel">Delete</button>`:""}</div></div>`;
+  if(confirmDel)h+=`<div class="confirm">Delete this visit permanently?<button class="btn danger" data-act="del" data-id="${esc(v._id)}">Yes, delete</button><button class="btn" data-act="nodel">Cancel</button></div>`;
+  h+=`<div class="card" style="display:flex;flex-direction:column;gap:14px">
+    <div class="sec-head"><div><div class="lbl">Store visit</div><h2 style="font-size:22px">${esc(storeName(v.store))}</h2></div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap">${v.status==="submitted"?`<span class="pill ok">Submitted</span>`:`<span class="pill gold">Draft</span>`}<span class="pill ${scoreClass(sc.pct)}">Audit ${sc.pct==null?"—":sc.pct+"%"}</span></div></div>
+    <div class="detail-grid">
+      <div class="kv"><span class="lbl">Date</span><span class="v">${esc(fmtD(v.date))} ${v.date?`<span class="muted">(${DAY[parseD(v.date).getDay()]})</span>`:""}</span></div>
+      <div class="kv"><span class="lbl">Time</span><span class="v num">${esc(v.startTime||"—")} – ${esc(v.endTime||"—")}</span></div>
+      <div class="kv"><span class="lbl">Duration</span><span class="v num">${fmtDur(dur)}</span></div>
+      <div class="kv"><span class="lbl">H.O. team</span><span class="v">${esc((v.team||[]).map(memberName).join(", ")||"—")}</span></div>
+    </div>
+    ${checksHtml(v)}
+  </div>`;
+  h+=`<div class="sec"><h2>Branch members present</h2><div class="tbl-wrap"><table><tbody>${BRANCH.map(([k,t])=>{const b=(v.branch||{})[k]||{};return `<tr><td><b>${t}</b></td><td>${b.present?`<span class="pill ok">Present</span>`:`<span class="pill bad">Absent</span>`}</td><td>${esc(b.name||"—")}</td></tr>`}).join("")}</tbody></table></div></div>`;
+  h+=`<div class="sec"><h2>Reviews</h2>`;
+  REVIEWS.forEach(r=>{const x=(v.reviews||{})[r.k]||{};const st=RSTATUS.find(s=>s[0]===x.status);
+    h+=`<div class="card" style="display:flex;flex-direction:column;gap:10px"><div class="sec-head"><h3>${r.t}</h3>${st?`<span class="pill ${st[2]}">${st[1]}</span>`:`<span class="pill idle">No status</span>`}</div>
+    ${r.nums.length?`<div class="calc">${r.nums.map(n=>(n==="ly"?"LY":NUMLBL[n])+" "+esc(x[n]||"—")).join(" · ")} (${esc(r.unit)})</div>`:""}
+    ${calcHtml(x,r)}${commitHtml(v,r)}${issuePills(x.issues)}
+    <div class="rv-grid">${RTEXT.map(([f,t])=>`<div><span class="lbl">${t.replace(" (optional)","")}</span><p>${esc(x[f]||"—")}</p></div>`).join("")}
+    ${r.commit==="num"?`<div><span class="lbl">Commitment for next visit</span><p class="num">${num(x.commit)==null?"—":sgn(num(x.commit))+"% vs LY"}</p></div>`:""}
+    ${r.commit==="text"?`<div><span class="lbl">Note for next visit</span><p>${esc(x.nextNote||"—")}</p></div>`:""}</div></div>`});
+  h+=`</div><div class="sec"><div class="sec-head"><h2>Inventory Controller Audit</h2><span class="num">${sc.ok}/${AUDIT.length} OK</span></div><div class="card">`;
+  AUDIT.forEach(([k,t,rated],i)=>{const a=(v.audit||{})[k]||{};const rt=rated&&RSTATUS.find(s=>s[0]===a.rating);
+    h+=`<div class="audit"><div class="audit-h"><span class="q"><span class="n">${pad(i+1)}</span>${esc(t)}</span>${rt?`<span class="pill ${rt[2]}">${rt[1]}</span>`:a.ok===true?`<span class="pill ok">OK</span>`:a.ok===false?`<span class="pill bad">Not OK</span>`:`<span class="pill idle">Not checked</span>`}</div>
+    ${a.remark?`<div class="small" style="white-space:pre-wrap">${esc(a.remark)}</div>`:""}${issuePills(a.issues)}
+    ${(a.photos||[]).length?`<div class="photos">${a.photos.map(id=>`<a class="ph" href="https://drive.google.com/file/d/${esc(id)}/view" target="_blank" rel="noopener"><img src="${photoUrl(id)}" alt="Photo for ${esc(t)}" loading="lazy"></a>`).join("")}</div>`:""}</div>`});
+  h+=`</div></div>`;
+  if(v.notes)h+=`<div class="sec"><h2>Other notes</h2><div class="card" style="white-space:pre-wrap">${esc(v.notes)}</div></div>`;
+  return h;
+}
+function checksHtml(v){
+  const out=[];const dur=duration(v);
+  if(v.date&&!isThu(v.date))out.push(`<div class="alert warn">Visit was on ${DAY[parseD(v.date).getDay()]}. SOP day is Thursday.</div>`);
+  if(dur!=null&&dur>180)out.push(`<div class="alert warn">Visit took ${fmtDur(dur)}. SOP limit is 3 hours.</div>`);
+  const ab=BRANCH.filter(([k])=>!((v.branch||{})[k]||{}).present).map(x=>x[1]);
+  if(ab.length)out.push(`<div class="alert warn">Not present: ${esc(ab.join(", "))}</div>`);
+  return out.join("");
+}
+
+/* ---------- form ---------- */
+function renderForm(){
+  const v=draft;const dur=duration(v);
+  if(!canWrite)return `<div class="sec"><div class="empty"><b>View-only access</b>You can see visits but cannot fill new ones.</div></div>`;
+  let h=`<div class="sec"><div class="sec-head"><h2>${v._id?"Edit visit":"New store visit"}</h2>
+    ${v._id||hasContent(v)?`<button class="btn ghost" data-act="discard">${v._id?"Cancel edit":"Clear form"}</button>`:""}</div>`;
+  /* 1 basic */
+  h+=`<div class="fset"><div class="fset-h"><h3>Visit details</h3><span class="step">01</span></div>
+    <div class="grid2">
+      <div class="field"><label for="f-store">Store</label><select id="f-store" data-path="store"><option value="">Select store</option>${WEEKS.map(w=>`<optgroup label="${esc(w.t)}">${STORES.filter(s=>s.week===w.w).map(s=>`<option value="${s.id}" ${v.store===s.id?"selected":""}>${esc(s.name)}</option>`).join("")}</optgroup>`).join("")}</select></div>
+      <div class="field"><label for="f-date">Date</label><input type="date" id="f-date" data-path="date" value="${esc(v.date)}"></div>
+      <div class="field"><label for="f-start">Start time <span class="muted">(auto)</span></label><div class="timebox"><input type="time" id="f-start" data-path="startTime" value="${esc(v.startTime)}"><button type="button" class="btn" data-now="startTime">Now</button></div></div>
+      <div class="field"><label for="f-end">End time <span class="muted">(auto on submit)</span></label><div class="timebox"><input type="time" id="f-end" data-path="endTime" value="${esc(v.endTime)}"><button type="button" class="btn" data-now="endTime">Now</button></div></div>
+    </div>
+    <div id="liveChecks">${liveChecks(v)}</div>
+    <div class="field"><span class="fl">H.O. team on this visit</span>
+      ${team.length?`<div class="chips">${team.map(t=>`<label class="chk"><input type="checkbox" data-team="${esc(t.id)}" ${v.team.includes(t.id)?"checked":""}>${esc(t.name)}${t.hod?` <span class="pill gold">HOD</span>`:""}</label>`).join("")}</div>`:`<div class="alert warn">No team members yet. Add them in the Team tab.</div>`}
+    </div></div>`;
+  /* 2 branch */
+  h+=`<div class="fset" style="margin-top:12px"><div class="fset-h"><h3>Branch members present</h3><span class="step">02</span></div>
+    ${BRANCH.map(([k,t])=>`<div class="member"><label class="chk"><input type="checkbox" data-path="branch.${k}.present" ${v.branch[k].present?"checked":""}>${t}</label>
+      <input type="text" id="f-b-${k}" data-path="branch.${k}.name" value="${esc(v.branch[k].name)}" placeholder="Name of ${t}" aria-label="Name of ${t}"></div>`).join("")}
+  </div>`;
+  /* 3 reviews */
+  h+=`<div class="fset" style="margin-top:12px"><div class="fset-h"><h3>Sale &amp; stock reviews</h3><span class="step">03</span></div>`;
+  REVIEWS.forEach(r=>{const x=v.reviews[r.k];
+    h+=`<div class="rev"><h3 style="color:var(--accent)">${r.t}</h3>
+      ${r.tip?`<div class="small muted">${esc(r.tip)}</div>`:""}
+      ${r.nums.length?`<div class="grid3">${r.nums.map(n=>`<div class="field"><label for="f-${r.k}-${n}">${NUMLBL[n]}</label><input type="number" inputmode="decimal" step="any" id="f-${r.k}-${n}" data-path="reviews.${r.k}.${n}" value="${esc(x[n])}" placeholder="${r.unit}"></div>`).join("")}</div>`:""}
+      <div id="calc-${r.k}" style="display:flex;flex-direction:column;gap:8px">${calcHtml(x,r)}</div>
+      <div id="cc-${r.k}">${commitHtml(v,r)}</div>
+      ${r.issues?issueChips("reviews."+r.k,x.issues,"Issue type (optional)"):""}
+      <div class="field"><span class="fl">Status</span><div class="seg" role="group" aria-label="Status of ${esc(r.t)}">${RSTATUS.map(([sv,st,cl])=>`<button type="button" data-rs="${r.k}" data-val="${sv}" class="${x.status===sv?"on-"+cl:""}" aria-pressed="${x.status===sv}">${st}</button>`).join("")}</div></div>
+      <div class="grid3">${RTEXT.map(([f,t])=>`<div class="field"><label for="f-${r.k}-${f}">${t}</label><textarea id="f-${r.k}-${f}" data-path="reviews.${r.k}.${f}" rows="2">${esc(x[f])}</textarea></div>`).join("")}</div>
+      ${r.commit==="num"?`<div class="field" style="max-width:340px"><label for="f-${r.k}-c">Branch commitment for next visit (growth % vs LY)</label><input type="number" inputmode="decimal" step="any" id="f-${r.k}-c" data-path="reviews.${r.k}.commit" value="${esc(x.commit)}" placeholder="e.g. 15"></div>`:""}
+      ${r.commit==="text"?`<div class="field"><label for="f-${r.k}-nn">Note for next visit (optional)</label><textarea id="f-${r.k}-nn" data-path="reviews.${r.k}.nextNote" rows="2" placeholder="Only if a category is not selling well: which category, and what to check next time">${esc(x.nextNote)}</textarea></div>`:""}
+    </div>`});
+  h+=`</div>`;
+  /* 4 audit */
+  const sc=auditScore(v);
+  h+=`<div class="fset" style="margin-top:12px"><div class="fset-h"><h3>Inventory Controller Audit</h3><span class="step">04</span></div>
+    <div class="calc" id="auditCount">${sc.ans}/${AUDIT.length} checked · ${sc.ok} OK${sc.pct!=null?` · Score ${sc.pct}%`:""}</div>`;
+  AUDIT.forEach(([k,t,rated],i)=>{const a=v.audit[k];
+    const ctl=rated?`<div class="seg" role="group" aria-label="${esc(t)}">${RSTATUS.map(([sv,st,cl])=>`<button type="button" data-ar="${k}" data-val="${sv}" class="${a.rating===sv?"on-"+cl:""}" aria-pressed="${a.rating===sv}">${st}</button>`).join("")}</div>`
+      :`<div class="seg" role="group" aria-label="${esc(t)}"><button type="button" data-ok="${k}" data-val="1" class="${a.ok===true?"on-ok":""}" aria-pressed="${a.ok===true}">OK</button><button type="button" data-ok="${k}" data-val="0" class="${a.ok===false?"on-bad":""}" aria-pressed="${a.ok===false}">Not OK</button></div>`;
+    h+=`<div class="audit"><div class="audit-h"><span class="q"><span class="n">${pad(i+1)}</span>${esc(t)}</span>${ctl}</div>
+      ${rated?`<div class="small muted">Excellent and Good count as OK in the audit score, Poor counts as Not OK.</div>`:""}
+      <textarea id="f-a-${k}" data-path="audit.${k}.remark" rows="1" placeholder="Remarks">${esc(a.remark)}</textarea>
+      <div class="photos">${a.photos.map((id,j)=>`<div class="ph"><img src="${photoUrl(id)}" alt="Photo ${j+1}"><button type="button" data-rmph="${k}" data-i="${j}" aria-label="Remove photo">×</button></div>`).join("")}
+      ${assets?`<label class="addph">+ Photo<input type="file" accept="image/*" multiple data-ph="${k}"></label>`:""}</div>
+    </div>`});
+  if(!assets)h+=`<div class="muted small">Photo upload is not available right now.</div>`;
+  h+=`</div>`;
+  h+=`<div class="fset" style="margin-top:12px"><div class="field"><label for="f-notes">Other notes (optional)</label><textarea id="f-notes" data-path="notes" rows="3">${esc(v.notes)}</textarea></div></div>`;
+  h+=`<div class="actions"><span id="formMsg" class="muted small" style="margin-right:auto;align-self:center"></span>
+    <button class="btn" data-act="save" ${uploading?"disabled":""}>Save draft</button>
+    <button class="btn primary" data-act="submit" ${uploading?"disabled":""}>Submit visit</button></div></div>`;
+  return h;
+}
+function hasContent(v){return !!(v.store||v.team.length||AUDIT.some(([k])=>v.audit[k].ok!=null))}
+function achText(x,r){const a=achievement(x,r.lower);const t=num(x.target),ac=num(x.actual);
+  if(r.lower){if(t==null||ac==null)return "";const d=ac-t;return d<=0?`Within target (${ac} vs ${t})`:`${d} over target`}
+  return a==null?"":`Achievement ${a}%`}
+function liveChecks(v){const out=[];const dur=duration(v);
+  if(v.date&&!isThu(v.date))out.push(`<div class="alert warn">${DAY[parseD(v.date).getDay()]}: SOP day for store visits is Thursday.</div>`);
+  if(v.startTime&&v.endTime&&dur==null)out.push(`<div class="alert bad">End time is before start time.</div>`);
+  if(dur!=null)out.push(dur>180?`<div class="alert warn">Duration ${fmtDur(dur)}: over the 3-hour SOP limit.</div>`:`<div class="alert ok">Duration ${fmtDur(dur)}: within 3 hours.</div>`);
+  return out.join("")}
+function setPath(o,p,val){const ks=p.split(".");let c=o;for(let i=0;i<ks.length-1;i++)c=c[ks[i]];c[ks[ks.length-1]]=val}
+let saveT=null;function persistDraft(){clearTimeout(saveT);saveT=setTimeout(()=>{if(!draft._id)lsSet("svc-draft",draft)},400)}
+function refreshLive(){const lc=document.getElementById("liveChecks");if(lc)lc.innerHTML=liveChecks(draft);
+  REVIEWS.forEach(r=>{const el=document.getElementById("calc-"+r.k);if(el)el.innerHTML=calcHtml(draft.reviews[r.k],r);const cc=document.getElementById("cc-"+r.k);if(cc)cc.innerHTML=commitHtml(draft,r)});
+  AUDIT.forEach(([k])=>{const el=document.getElementById("iss-"+k);if(!el)return;const show=draft.audit[k].ok===false;if(show!==!!el.firstElementChild)el.innerHTML=show?issueChips("audit."+k,draft.audit[k].issues,"What is the issue? (optional)"):""});
+  const sc=auditScore(draft);const ac=document.getElementById("auditCount");if(ac)ac.textContent=`${sc.ans}/${AUDIT.length} checked · ${sc.ok} OK${sc.pct!=null?` · Score ${sc.pct}%`:""}`}
+
+app.addEventListener("input",e=>{
+  const t=e.target;
+  if(t.id==="dashMonth"){if(t.value){dashMonth=t.value;render()}return}
+  if(t.id==="fMonth"){filt.month=t.value;render();return}
+  if(tab==="team"&&t.dataset.it!=null){issuesEdit[+t.dataset.it]=t.value;issuesDirty=true;return}
+  if(tab==="team"&&t.dataset.tm!=null){teamEdit[+t.dataset.i][t.dataset.tm]=t.type==="checkbox"?t.checked:t.value;teamDirty=true;return}
+  if(!draft||!t.dataset.path)return;
+  setPath(draft,t.dataset.path,t.type==="checkbox"?t.checked:t.value);
+  persistDraft();refreshLive();
+});
+app.addEventListener("change",e=>{
+  const t=e.target;
+  if(t.id==="fStore"){filt.store=t.value;render();return}
+  if(t.id==="fMember"){filt.member=t.value;render();return}
+  if(t.dataset.iss!=null&&draft){const o=t.dataset.iss.split(".").reduce((c,k)=>c[k],draft);o.issues=(o.issues||[]).filter(x=>x!==t.value);if(t.checked)o.issues.push(t.value);persistDraft();return}
+  if(t.dataset.team!=null&&draft){const id=t.dataset.team;draft.team=draft.team.filter(x=>x!==id);if(t.checked)draft.team.push(id);persistDraft();return}
+  if(t.dataset.ph!=null&&t.files&&t.files.length){uploadPhotos(t.dataset.ph,[...t.files]);t.value=""}
+});
+app.addEventListener("click",async e=>{
+  const ok=e.target.closest("[data-ok]");
+  if(ok&&draft){const k=ok.dataset.ok,val=ok.dataset.val==="1";draft.audit[k].ok=draft.audit[k].ok===val?null:val;
+    const seg=ok.parentElement;seg.querySelectorAll("button").forEach(b=>{const on=draft.audit[k].ok!==null&&(b.dataset.val==="1")===draft.audit[k].ok;b.className=on?(b.dataset.val==="1"?"on-ok":"on-bad"):"";b.setAttribute("aria-pressed",on)});
+    persistDraft();refreshLive();return}
+  const ar=e.target.closest("[data-ar]");
+  if(ar&&draft){const k=ar.dataset.ar,val=ar.dataset.val;const a=draft.audit[k];a.rating=a.rating===val?"":val;a.ok=a.rating?a.rating!=="poor":null;
+    ar.parentElement.querySelectorAll("button").forEach(b=>{const on=b.dataset.val===a.rating;const cl=(RSTATUS.find(s=>s[0]===b.dataset.val)||[])[2];b.className=on?"on-"+cl:"";b.setAttribute("aria-pressed",on)});
+    persistDraft();refreshLive();return}
+  const rs=e.target.closest("[data-rs]");
+  if(rs&&draft){const k=rs.dataset.rs,val=rs.dataset.val;const x=draft.reviews[k];x.status=x.status===val?"":val;
+    rs.parentElement.querySelectorAll("button").forEach(b=>{const on=b.dataset.val===x.status;const cl=(RSTATUS.find(s=>s[0]===b.dataset.val)||[])[2];b.className=on?"on-"+cl:"";b.setAttribute("aria-pressed",on)});
+    persistDraft();return}
+  const nb=e.target.closest("[data-now]");
+  if(nb&&draft){draft[nb.dataset.now]=nowHM();const inp=nb.parentElement.querySelector("input");if(inp)inp.value=draft[nb.dataset.now];persistDraft();refreshLive();return}
+  const rm=e.target.closest("[data-rmph]");
+  if(rm&&draft){draft.audit[rm.dataset.rmph].photos.splice(+rm.dataset.i,1);persistDraft();render();return}
+  const b=e.target.closest("[data-act]");if(!b)return;
+  const act=b.dataset.act;
+  if(act==="tab")setTab(b.dataset.tab);
+  else if(act==="open"){detailId=b.dataset.id;confirmDel=false;render();window.scrollTo(0,0)}
+  else if(act==="back"){detailId=null;confirmDel=false;render()}
+  else if(act==="clearf"){filt={store:"",member:"",month:""};render()}
+  else if(act==="askdel"){confirmDel=true;render()}
+  else if(act==="nodel"){confirmDel=false;render()}
+  else if(act==="del"){try{await db.collection("visits").doc(b.dataset.id).delete();toast("Visit deleted");detailId=null;confirmDel=false;render()}catch(err){toast(errMsg(err))}}
+  else if(act==="edit"){const v=visits.find(x=>x._id===b.dataset.id);if(v){draft=normalize(v);detailId=null;tab="new";document.querySelectorAll("#tabs button").forEach(x=>x.setAttribute("aria-selected",x.dataset.tab==="new"?"true":"false"));render();window.scrollTo(0,0)}}
+  else if(act==="discard"){draft=blankVisit();draft.startTime=nowHM();lsSet("svc-draft",null);render()}
+  else if(act==="save")saveVisit(false);
+  else if(act==="submit")saveVisit(true);
+  else if(act==="addm"){teamDirty=true;teamEdit.push({id:"m-"+uid(),name:"",role:"",hod:false});render();const ins=app.querySelectorAll('[data-tm="name"]');ins[ins.length-1]?.focus()}
+  else if(act==="rmm"){teamDirty=true;teamEdit.splice(+b.dataset.i,1);render()}
+  else if(act==="saveteam")saveTeam();
+  else if(act==="xlmonth")downloadReport(submitted().filter(v=>(v.date||"").slice(0,7)===dashMonth),fmtYM(dashMonth));
+  else if(act==="xllist"){let vs=visits.slice();if(filt.store)vs=vs.filter(v=>v.store===filt.store);if(filt.member)vs=vs.filter(v=>(v.team||[]).includes(filt.member));if(filt.month)vs=vs.filter(v=>(v.date||"").startsWith(filt.month));
+    downloadReport(vs,[filt.month?fmtYM(filt.month):"All months",filt.store?storeName(filt.store):""].filter(Boolean).join(" "))}
+  else if(act==="addi"){issuesDirty=true;issuesEdit.push("");render();const ins=app.querySelectorAll('[data-it]');ins[ins.length-1]?.focus()}
+  else if(act==="rmi"){issuesDirty=true;issuesEdit.splice(+b.dataset.i,1);render()}
+  else if(act==="saveiss")saveIssues();
+  else if(act==="resetteam"){teamDirty=false;teamEdit=JSON.parse(JSON.stringify(team));render()}
+});
+
+function errMsg(err){const c=err&&err.code;
+  if(c==="invalid_argument")return "Could not save. You may have view-only access.";
+  if(c==="quota_exceeded")return "Storage is full. Delete old drafts and try again.";
+  if(c==="too_large")return "Photo is too large.";
+  if(c==="unsupported_type")return "Only image files can be added.";
+  return "Could not save. Check your connection and try again."}
+
+async function saveVisit(submit){
+  const v=draft;const msg=document.getElementById("formMsg");
+  const miss=[];
+  if(!v.store)miss.push("store");
+  if(!v.date)miss.push("date");
+  if(miss.length){msg.textContent="Select the "+miss.join(" and ")+" to save.";msg.style.color="var(--bad)";return}
+  if(submit&&!v.endTime){const n=nowHM();if(!v.startTime||mins(n)>mins(v.startTime))v.endTime=n}
+  if(!db){toast("Saving is not available here.");return}
+  const body=JSON.parse(JSON.stringify(v));delete body._id;
+  body.status=submit?"submitted":(v.status==="submitted"?"submitted":"draft");
+  if(!submit&&v.status!=="submitted")body.status="draft";
+  body.score=auditScore(v).pct;body.updatedAt=new Date().toISOString();
+  if(!body.createdAt)body.createdAt=body.updatedAt;
+  try{
+    const ref=v._id?db.collection("visits").doc(v._id):db.collection("visits").doc();
+    await ref.set(body);
+    toast(submit?"Visit submitted":"Draft saved");
+    lsSet("svc-draft",null);
+    draft=blankVisit();
+    detailId=ref.id;render();window.scrollTo(0,0);
+  }catch(err){msg.textContent=errMsg(err);msg.style.color="var(--bad)"}
+}
+
+/* photos: shrink to 1600px JPEG then upload */
+function shrink(file){return new Promise(res=>{
+  const url=URL.createObjectURL(file);const img=new Image();
+  img.onload=()=>{const max=1600;let w=img.naturalWidth,h=img.naturalHeight;const s=Math.min(1,max/Math.max(w,h));w=Math.round(w*s);h=Math.round(h*s);
+    const c=document.createElement("canvas");c.width=w;c.height=h;c.getContext("2d").drawImage(img,0,0,w,h);URL.revokeObjectURL(url);
+    c.toBlob(b=>res(b||file),"image/jpeg",0.82)};
+  img.onerror=()=>{URL.revokeObjectURL(url);res(file)};img.src=url})}
+async function uploadPhotos(k,files){
+  if(!assets)return;uploading++;render();toast("Uploading photo…");
+  for(const f of files){
+    try{const b=await shrink(f);const r=await assets.upload(b,{type:b.type==="image/jpeg"?"image/jpeg":(["image/png","image/webp","image/gif"].includes(b.type)?b.type:"image/jpeg")});
+      draft.audit[k].photos.push(r.id);persistDraft()}
+    catch(err){toast(errMsg(err))}
+  }
+  uploading--;render();toast("Photo added")}
+
+/* ---------- team ---------- */
+function renderTeam(){
+  if(!teamEdit)teamEdit=JSON.parse(JSON.stringify(team));
+  let h=`<div class="sec"><div class="sec-head"><h2>H.O. 18KT operation team</h2></div>
+    <p class="muted small" style="margin:0;max-width:62ch">These names appear as checkboxes on every visit. Tick HOD for the person whose visits count toward HOD coverage. Branch staff names are typed on each visit, so they are not listed here. Anyone with the link and the PIN can fill visits.</p>
+    <div class="card" style="display:flex;flex-direction:column;gap:10px">`;
+  if(!teamEdit.length)h+=`<div class="muted small">No team members yet. Add the first one below.</div>`;
+  teamEdit.forEach((m,i)=>{h+=`<div class="team-row">
+    <input type="text" id="tm-n-${i}" data-tm="name" data-i="${i}" value="${esc(m.name)}" placeholder="Name" aria-label="Name" ${canWrite?"":"disabled"}>
+    <input type="text" class="role" id="tm-r-${i}" data-tm="role" data-i="${i}" value="${esc(m.role)}" placeholder="Role / designation" aria-label="Role" ${canWrite?"":"disabled"}>
+    <label class="chk"><input type="checkbox" data-tm="hod" data-i="${i}" ${m.hod?"checked":""} ${canWrite?"":"disabled"}>HOD</label>
+    ${canWrite?`<button class="btn ghost" data-act="rmm" data-i="${i}" aria-label="Remove ${esc(m.name)}" style="color:var(--bad)">Remove</button>`:""}
+  </div>`});
+  h+=`</div>`;
+  if(canWrite)h+=`<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" data-act="addm">+ Add member</button><span style="flex:1"></span><button class="btn ghost" data-act="resetteam">Undo changes</button><button class="btn primary" data-act="saveteam">Save team</button></div>`;
+  h+=`</div>`;
+  if(!issuesEdit)issuesEdit=issueTypes.slice();
+  h+=`<div class="sec"><h2>Issue types</h2>
+    <p class="muted small" style="margin:0;max-width:62ch">Tag these in the Category Wise Sale Review. The same name used at every branch lets the dashboard and the Excel report match issues across branches.</p>
+    <div class="card" style="display:flex;flex-direction:column;gap:8px">${issuesEdit.length?"":`<div class="muted small">No issue types yet.</div>`}
+    ${issuesEdit.map((t,i)=>`<div style="display:flex;gap:8px"><input type="text" id="it-${i}" data-it="${i}" value="${esc(t)}" placeholder="Issue type" aria-label="Issue type" ${canWrite?"":"disabled"}>${canWrite?`<button class="btn ghost" data-act="rmi" data-i="${i}" style="color:var(--bad)">Remove</button>`:""}</div>`).join("")}</div>
+    ${canWrite?`<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" data-act="addi">+ Add issue type</button><span style="flex:1"></span><button class="btn primary" data-act="saveiss">Save issue types</button></div>`:""}</div>`;
+  return h;
+}
+async function saveTeam(){
+  const clean=teamEdit.map(m=>({id:m.id,name:(m.name||"").trim(),role:(m.role||"").trim(),hod:!!m.hod})).filter(m=>m.name);
+  try{await db.doc("config/team").set({members:clean,updatedAt:new Date().toISOString()});team=clean;teamDirty=false;teamEdit=JSON.parse(JSON.stringify(clean));toast("Team saved");render()}
+  catch(err){toast(errMsg(err))}
+}
+
+async function saveIssues(){
+  const clean=[...new Set(issuesEdit.map(t=>(t||"").trim()).filter(Boolean))];
+  try{await db.doc("config/issues").set({types:clean,updatedAt:new Date().toISOString()});issueTypes=clean;issuesEdit=clean.slice();issuesDirty=false;toast("Issue types saved");render()}
+  catch(err){toast(errMsg(err))}}
+
+/* ---------- Google Apps Script bridge ---------- */
+let needPin=false,pinErr="";
+function getPin(){try{return localStorage.getItem("svc-pin")||""}catch(e){return window.__pin||""}}
+function setPin(v){window.__pin=v;try{v?localStorage.setItem("svc-pin",v):localStorage.removeItem("svc-pin")}catch(e){}}
+/* Paste your Apps Script Web app URL (ends with /exec) between the quotes */
+const API_URL = "https://script.google.com/macros/s/AKfycbzZrGcNwJyxBminu0r4-EWLgZQMzQ4fzwDEhYpNXbZEBYbENWIP0horxK6hKv-W7xGJ/exec";
+async function run(fn,...args){
+  if(!/^https:\/\/script\.google\.com\/.+\/exec$/.test(API_URL))throw new Error("API_URL is not set in index.html");
+  const r=await fetch(API_URL,{method:"POST",body:JSON.stringify({fn,args:[getPin()||window.__pin||"",...args]})});
+  const j=await r.json();
+  if(!j.ok){if(String(j.error).indexOf("BAD_PIN")>=0){setPin("");needPin=true;pinErr="Wrong PIN. Try again.";render()}throw new Error(j.error)}
+  return j.result}
+function renderPin(){return `<div class="sec" style="max-width:360px;margin:40px auto 0"><div class="card" style="display:flex;flex-direction:column;gap:12px">
+  <h2>Enter PIN</h2><p class="muted small" style="margin:0">Ask Ritik Bhai for the 4-digit PIN. This phone will remember it.</p>
+  <form id="pinForm" style="display:flex;flex-direction:column;gap:10px"><input type="password" inputmode="numeric" id="pinInput" autocomplete="off" aria-label="PIN" placeholder="PIN">
+  ${pinErr?`<div class="alert bad">${esc(pinErr)}</div>`:""}<button class="btn primary" type="submit">Open checklist</button></form></div></div>`}
+app.addEventListener("submit",e=>{if(e.target.id!=="pinForm")return;e.preventDefault();const v=document.getElementById("pinInput").value.trim();if(!v)return;setPin(v);needPin=false;pinErr="";visitsLoaded=false;render();refresh(false)});
+function photoUrl(id){return "https://drive.google.com/thumbnail?id="+encodeURIComponent(id)+"&sz=w1000"}
+let sheetUrl="";
+function blobToB64(b){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(String(r.result).split(",")[1]);r.onerror=rej;r.readAsDataURL(b)})}
+function mkDoc(coll,id){id=id||("v"+uid());return {id,
+  set:b=>(coll==="visits"?run("saveVisit",id,JSON.stringify(b)):run("saveConfig",id,JSON.stringify(b))).then(()=>refresh(true)),
+  delete:()=>run("deleteVisit",id).then(()=>refresh(true))}}
+db={collection:c=>({doc:id=>mkDoc(c,id)}),doc:p=>{const [c,id]=p.split("/");return mkDoc(c,id)}};
+assets={upload:async(blob,opt)=>{const b64=await blobToB64(blob);const id=await run("uploadPhoto",b64,(opt&&opt.type)||blob.type||"image/jpeg");return {id,url:photoUrl(id)}}};
+downloads={save:async({filename,data})=>{
+  const url=URL.createObjectURL(data);const a=document.createElement("a");a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),4000);
+  toast("If the download did not start, open the Google Sheet: File → Download → Excel")}};
+let refreshing=false;
+async function refresh(syncReport){
+  if(refreshing&&!syncReport)return;refreshing=true;
+  try{const d=JSON.parse(await run("getData"));
+    team=d.team||[];issueTypes=d.issues||[];sheetUrl=d.sheetUrl||"";
+    visits=(d.visits||[]).sort((a,b)=>(a.date||"")<(b.date||"")?1:-1);visitsLoaded=true;teamLoaded=true;dbError="";
+    if(!teamDirty)teamEdit=JSON.parse(JSON.stringify(team));
+    if(!issuesDirty)issuesEdit=issueTypes.slice();
+    if(syncReport&&window.XLSX){try{await run("writeReport",JSON.stringify(buildWorkbook(visits,[])))}catch(e){}}
+    if(tab==="dash"||tab==="list"||!app.contains(document.activeElement))render();
+  }catch(err){if(!needPin){dbError="Could not load data. Check your internet and reload.";visitsLoaded=true;render()}}
+  refreshing=false}
+try{const t=localStorage.getItem("svc-tab");if(t&&["dash","list","team"].includes(t))tab=t}catch(e){}
+document.querySelectorAll("#tabs button").forEach(b=>b.setAttribute("aria-selected",b.dataset.tab===tab?"true":"false"));
+if(!getPin())needPin=true;
+render();
+if(!needPin)refresh(false);
+setInterval(()=>{if(!needPin&&tab!=="new"&&!document.hidden)refresh(false)},60000);
+})();
+</script>
+
+</body>
+</html>
